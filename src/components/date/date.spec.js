@@ -17,6 +17,7 @@ import Label from "../../__internal__/label";
 import StyledInputPresentation from "../../__internal__/input/input-presentation.style";
 import enGB from "../../locales/en-gb";
 import Tooltip from "../tooltip";
+import StyledHelp from "../help/help.style";
 
 moment.suppressDeprecationWarnings = true;
 jest.useFakeTimers();
@@ -264,6 +265,16 @@ describe("Date", () => {
         simulateOnKeyDown(wrapper, enterKeyCode);
         expect(wrapper.find(DatePicker).exists()).toBe(true);
       });
+    });
+  });
+
+  describe('when the "click" event is triggered on the input', () => {
+    const onClickFn = jest.fn();
+
+    it('then the "DatePicker" should not be closed', () => {
+      wrapper = render({ onClick: onClickFn, value: "" });
+      simulateClickOnInput(wrapper);
+      expect(onClickFn).toHaveBeenCalled();
     });
   });
 
@@ -848,6 +859,21 @@ describe("Date", () => {
         .props();
 
       expect(position).toEqual("top");
+    });
+  });
+
+  describe("label help", () => {
+    it("passes the expected values to the help component", () => {
+      const text = "foo";
+      const { "aria-label": ariaLabel } = render({
+        label: text,
+        labelHelp: text,
+        helpAriaLabel: text,
+      })
+        .find(StyledHelp)
+        .props();
+
+      expect(ariaLabel).toEqual(text);
     });
   });
 });

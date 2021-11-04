@@ -10,6 +10,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import {
   StyledGroupWrapper,
+  StyledPicklistGroupUl,
   StyledPicklistGroup,
   StyledGroupButton,
 } from "./picklist-group.style";
@@ -96,24 +97,26 @@ const PicklistGroup = React.forwardRef(
         {...(type === "add" ? { enter: false } : {})}
       >
         <StyledGroupWrapper highlighted={highlighted} type={type}>
-          <StyledPicklistGroup
-            onKeyDown={handleKeydown}
-            data-element="picklist-group"
-          >
-            {title}
-            <StyledGroupButton
-              buttonType="secondary"
-              destructive={type === "remove"}
-              iconType={type}
-              onClick={handleClick}
-              onMouseEnter={() => setHighlighted(true)}
-              onMouseLeave={() => setHighlighted(false)}
-              onFocus={() => setHighlighted(true)}
-              onBlur={() => setHighlighted(false)}
-              ref={ref}
-            />
-          </StyledPicklistGroup>
-          <TransitionGroup component={null}>{content}</TransitionGroup>
+          <StyledPicklistGroupUl>
+            <StyledPicklistGroup
+              onKeyDown={handleKeydown}
+              data-element="picklist-group"
+            >
+              {title}
+              <StyledGroupButton
+                buttonType="secondary"
+                destructive={type === "remove"}
+                iconType={type}
+                onClick={handleClick}
+                onMouseEnter={() => setHighlighted(true)}
+                onMouseLeave={() => setHighlighted(false)}
+                onFocus={() => setHighlighted(true)}
+                onBlur={() => setHighlighted(false)}
+                ref={ref}
+              />
+            </StyledPicklistGroup>
+            <TransitionGroup component={null}>{content}</TransitionGroup>
+          </StyledPicklistGroupUl>
         </StyledGroupWrapper>
       </CSSTransition>
     );

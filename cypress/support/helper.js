@@ -2,42 +2,37 @@ import DEBUG_FLAG from ".";
 
 const stringToURL = (str) => str.toLowerCase().replace(/ /g, "-");
 
-function prepareUrl(component, suffix, prefix) {
+function prepareUrl(component, suffix = "default story") {
   let url = Cypress.config().baseUrl;
-  const story = Cypress.env("iframe") + prefix;
+  const story = Cypress.env("iframe");
   // eslint-disable-next-line no-unused-expressions
   url += story;
   return `${url}${stringToURL(component)}--${stringToURL(suffix)}`;
 }
 
-export function visitComponentUrl(component, suffix = "default", prefix = "") {
-  cy.visit(prepareUrl(component, suffix, prefix));
+export function visitComponentUrl(component, suffix) {
+  cy.visit(prepareUrl(component, suffix));
 }
 
 // eslint-disable-next-line max-params
 export function visitComponentUrlWithParameters(
   component,
   story,
-  prefix = "",
   json = "",
   path = "",
   nameOfObject = ""
 ) {
   cy.fixture(`${path}/${json}`).then(($json) => {
-    const today = Cypress.dayjs().format("YYYY-MM-DD");
     const el = $json[nameOfObject];
     let url = "&args=";
     for (const prop in el) {
       if (prop === "theme") {
         url += `&theme=${encodeURIComponent(el[prop])}`;
       } else {
-        if (prop === "minDate" || prop === "minDate") {
-          el[prop] = today;
-        }
         url += `${prop}:${encodeURIComponent(el[prop])};`;
       }
     }
-    cy.visit(`${prepareUrl(component, story, prefix)}${url}`);
+    cy.visit(`${prepareUrl(component, story)}${url}`);
   });
 }
 

@@ -7,6 +7,8 @@ import { assertStyleMatch } from "../../__spec_helper__/test-utils";
 import CheckableInput from ".";
 import FieldHelpStyle from "../field-help/field-help.style";
 import { FieldLineStyle } from "../form-field/form-field.style";
+import Label from "../label";
+import FieldHelp from "../field-help";
 import HiddenCheckableInputStyle from "./hidden-checkable-input.style";
 import LabelStyle, { StyledLabelContainer } from "../label/label.style";
 import {
@@ -15,6 +17,11 @@ import {
 } from "./checkable-input.style";
 import StyledHelp from "../../components/help/help.style";
 import baseTheme from "../../style/themes/base";
+import guid from "../utils/helpers/guid";
+
+jest.mock("../utils/helpers/guid");
+const mockedGuid = "guid-12345";
+guid.mockImplementation(() => "guid-12345");
 
 function render(props) {
   return TestRenderer.create(<StyledCheckableInputWrapper {...props} />);
@@ -34,9 +41,136 @@ describe("CheckableInput", () => {
           id: "foo",
           label: "bar",
           labelHelp: "baz",
-        }).find(StyledHelp);
+        })
+          .find(Label)
+          .find("label");
 
-        expect(labelWrapper.prop("id")).toBe("foo help");
+        expect(labelWrapper.prop("id")).toBe("foo-label");
+      });
+    });
+  });
+
+  describe("when id and fieldHelp props are present", () => {
+    it("returns an appropriate fieldHelpId property", () => {
+      const wrapper = mountInput({
+        id: "foo",
+        fieldHelp: "baz",
+      });
+      expect(wrapper.find(FieldHelp).prop("id")).toBe("foo-field-help");
+    });
+  });
+
+  describe("when label prop is not present", () => {
+    it("it does not set the aria-labelledby prop on the hidden input", () => {
+      const labelWrapper = mountInput({
+        id: "foo",
+      }).find(HiddenCheckableInputStyle);
+
+      expect(labelWrapper.prop("aria-labelledby")).toBe(undefined);
+    });
+  });
+
+  describe("aria", () => {
+    describe("when ariaLabelledBy is present", () => {
+      it("it overrides the labelId value on the hidden input", () => {
+        const labelWrapper = mountInput({
+          id: "foo",
+          label: "bar",
+          ariaLabelledBy: "override-bar",
+        }).find(HiddenCheckableInputStyle);
+
+        expect(labelWrapper.prop("aria-labelledby")).toBe("override-bar");
+      });
+    });
+    describe("when id", () => {
+      describe("is present", () => {
+        const commonProps = {
+          label: "bar",
+          id: "foo",
+        };
+
+        describe.each(["info", "warning", "error", "labelHelp"])(
+          "and %s are present",
+          (validationType) => {
+            const hiddenCheckableInputStyle = mountInput({
+              ...commonProps,
+              [validationType]: "test",
+            }).find(HiddenCheckableInputStyle);
+
+            expect(hiddenCheckableInputStyle.prop("aria-describedby")).toBe(
+              "foo-help"
+            );
+          }
+        );
+
+        describe("and fieldHelp props are present", () => {
+          it("should render a valid 'aria-describedby'", () => {
+            const hiddenCheckableInputStyle = mountInput({
+              ...commonProps,
+              fieldHelp: "baz",
+            });
+
+            expect(
+              hiddenCheckableInputStyle
+                .find(HiddenCheckableInputStyle)
+                .prop("aria-describedby")
+            ).toBe("foo-field-help");
+          });
+
+          describe.each(["info", "warning", "error"])(
+            "and %s is present too",
+            (validationType) => {
+              const hiddenCheckableInputStyle = mountInput({
+                ...commonProps,
+                fieldHelp: "baz",
+                [validationType]: "test",
+              });
+
+              expect(
+                hiddenCheckableInputStyle
+                  .find(HiddenCheckableInputStyle)
+                  .prop("aria-describedby")
+              ).toBe("foo-field-help foo-help");
+            }
+          );
+        });
+      });
+
+      describe("is not present", () => {
+        const commonProps = {
+          label: "bar",
+        };
+        describe("and fieldHelp props are present", () => {
+          it("should render a valid 'aria-describedby'", () => {
+            const hiddenCheckableInputStyle = mountInput({
+              ...commonProps,
+              fieldHelp: "baz",
+            });
+
+            expect(
+              hiddenCheckableInputStyle
+                .find(HiddenCheckableInputStyle)
+                .prop("aria-describedby")
+            ).toBe(`${mockedGuid}-field-help`);
+          });
+
+          describe.each(["info", "warning", "error"])(
+            "and %s is present too",
+            (validationType) => {
+              const hiddenCheckableInputStyle = mountInput({
+                ...commonProps,
+                fieldHelp: "baz",
+                [validationType]: "test",
+              });
+
+              expect(
+                hiddenCheckableInputStyle
+                  .find(HiddenCheckableInputStyle)
+                  .prop("aria-describedby")
+              ).toBe(`${mockedGuid}-field-help ${mockedGuid}-help`);
+            }
+          );
+        });
       });
     });
   });

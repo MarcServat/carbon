@@ -6,6 +6,12 @@ import PicklistDivider from "./picklist-divider/picklist-divider.component";
 import PicklistPlaceholder from "./picklist-placeholder/picklist-placeholder.component";
 import DuellingPicklist from "./duelling-picklist.component";
 import StyledSystemProps from "../../../.storybook/utils/styled-system-props";
+import {
+  Default,
+  AlternativeSearch,
+  Grouped,
+  InDialog,
+} from "./duelling-picklist-test.stories";
 
 <Meta
   title="DuellingPicklist"
@@ -47,7 +53,7 @@ To display an overlay over whole `DuellingPicklist` content pass a `disabled` pr
 
 `Picklist` wraps a list of `PicklistItem`'s, applies enter transition animations and provides an extended keyboard navigation (up/down/home/end keys).
 
-`PicklistDivider` as name states is a component meant to visually divide two `PickList`'s
+`PicklistDivider` as name states is a component meant to visually divide two `PickList`'s. It is optional, the spacing between the two picklists will be equal with or without it.
 
 `PicklistItem` is a component meant to visually represent one of the iterable entities. It can be of a type `add` or `remove`.
 It invokes passed `onChange` method with passed `item` prop as an argument when either `add` or `remove` icon is clicked or `space` or `enter` pressed when whole `PicklistItem` is focused.
@@ -61,7 +67,17 @@ It invokes passed `onChange` method with passed `item` prop as an argument when 
 Example of composed Duelling Picklist components with order preservation and search implemented.
 
 <Preview>
-  <Story id="duellingpicklist--default" name="Default" />
+  <Story name="default">{Default.bind({})}</Story>
+</Preview>
+
+### Alternative search placement
+
+The `Search` component can be placed outside of the picklist controls and positioned anywhere as required. This example also shows the option of not using a `PicklistDivider`.
+
+<Preview>
+  <Story name="alternative search placement">
+    {AlternativeSearch.bind({})}
+  </Story>
 </Preview>
 
 ### Grouped
@@ -69,7 +85,7 @@ Example of composed Duelling Picklist components with order preservation and sea
 Picklist items can be organised into selectable groups. Whole groups can be moved from one list to another at once, or group items can be moved individually.
 
 <Preview>
-  <Story id="duellingpicklist--grouped" name="Grouped" />
+  <Story name="grouped">{Grouped.bind({})}</Story>
 </Preview>
 
 ### In Dialog
@@ -77,7 +93,7 @@ Picklist items can be organised into selectable groups. Whole groups can be move
 Same as above but as a children of `Dialog` component.
 
 <Preview>
-  <Story id="duellingpicklist--in-dialog" name="InDialog" />
+  <Story name="in dialog">{InDialog.bind({})}</Story>
 </Preview>
 
 ## PicklistItem Examples

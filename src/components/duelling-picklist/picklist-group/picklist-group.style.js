@@ -3,7 +3,7 @@ import baseTheme from "../../../style/themes/base";
 import { ButtonWithForwardRef } from "../../button";
 import { StyledButton } from "../picklist-item/picklist-item.style";
 
-const StyledGroupWrapper = styled.div`
+const StyledGroupWrapper = styled.li`
   ${({ highlighted, type, theme }) => css`
     &:not(:first-of-type) {
       margin-top: 16px;
@@ -18,6 +18,10 @@ const StyledGroupWrapper = styled.div`
       }
     `}
   `}
+`;
+
+const StyledPicklistGroupUl = styled.ul`
+  padding: 0;
 `;
 
 const StyledPicklistGroup = styled.li`
@@ -50,4 +54,9 @@ const StyledGroupButton = styled(ButtonWithForwardRef)`
 StyledGroupWrapper.defaultProps = { theme: baseTheme };
 StyledGroupButton.defaultProps = { theme: baseTheme };
 
-export { StyledGroupWrapper, StyledPicklistGroup, StyledGroupButton };
+export {
+  StyledGroupWrapper,
+  StyledPicklistGroupUl,
+  StyledPicklistGroup,
+  StyledGroupButton,
+};
