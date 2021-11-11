@@ -193,6 +193,7 @@ export interface ThemeObject {
     textboxBackground: string;
     textboxBorder: string;
     textboxText: string;
+    textboxIconColor: string;
   };
 
   content: {

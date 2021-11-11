@@ -72,6 +72,7 @@ const FormField = ({
     <FormFieldStyle
       {...tagComponent(rest["data-component"], rest)}
       {...marginProps}
+      className={rest.className}
     >
       <FieldLineStyle inline={inlineLabel}>
         {reverse && children}
@@ -81,9 +82,9 @@ const FormField = ({
             labelId={labelId}
             align={labelAlign}
             disabled={disabled}
-            error={error}
-            warning={warning}
-            info={info}
+            error={!rest.validationRedesignOptIn && error}
+            warning={!rest.validationRedesignOptIn && warning}
+            info={!rest.validationRedesignOptIn && info}
             help={labelHelp}
             helpId={helpId}
             helpTabIndex={helpTabIndex}
