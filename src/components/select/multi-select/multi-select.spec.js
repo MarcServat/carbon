@@ -129,6 +129,7 @@ describe("MultiSelect", () => {
     assertStyleMatch(
       {
         paddingRight: expected,
+        position: "relative",
       },
       wrapper,
       { modifier: `${InputPresentationStyle}` }

@@ -523,6 +523,8 @@ const FilterableSelect = React.forwardRef(
             aria-controls={isOpen ? selectListId.current : ""}
             type="text"
             labelId={labelId.current}
+            isOpen={isOpen}
+            textboxRef={textboxRef}
             {...getTextboxProps()}
           />
         </div>

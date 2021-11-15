@@ -431,6 +431,8 @@ const SimpleSelect = React.forwardRef(
             aria-controls={isOpen ? selectListId.current : ""}
             type="select"
             labelId={labelId.current}
+            isOpen={isOpen}
+            textboxRef={textboxRef}
             {...getTextboxProps()}
           />
         </div>
