@@ -8,6 +8,10 @@ import useResizeObserver from "../../../hooks/__internal__/useResizeObserver";
 
 const modifiers = [
   {
+    name: "flip",
+    enabled: false,
+  },
+  {
     name: "offset",
     options: {
       offset: ({ placement, reference }) => {
