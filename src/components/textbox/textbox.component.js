@@ -115,7 +115,7 @@ const Textbox = ({
           data-element={dataElement}
           validationRedesignOptIn={validationRedesignOptIn}
           size={size}
-          hasInputIcon={!!inputIcon}
+          hasInputIcon={!!(showInputIcon && inputIcon)}
           readOnly={readOnly}
           {...filterStyledSystemMarginProps(props)}
         >
