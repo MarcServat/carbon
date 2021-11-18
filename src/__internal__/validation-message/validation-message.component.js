@@ -6,13 +6,11 @@ const ValidationMessage = ({ error, warning }) => {
   const validation = error || warning;
   const isStringValidation = typeof validation === "string";
 
-  return (
-    isStringValidation && (
-      <StyledValidationMessage isWarning={!!(!error && warning)}>
-        {validation}
-      </StyledValidationMessage>
-    )
-  );
+  return isStringValidation ? (
+    <StyledValidationMessage isWarning={!!(!error && warning)}>
+      {validation}
+    </StyledValidationMessage>
+  ) : null;
 };
 
 ValidationMessage.propTypes = {

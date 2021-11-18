@@ -25,7 +25,7 @@ describe("ValidationMessage component", () => {
   let wrapper;
 
   it.each(addColorId(validationWithStrings))(
-    "applies the expected styling when passed error is `%s`, warning is `%s` and info is `%s`",
+    "applies the expected styling when passed error string equals `%s` and warning string equals `%s`",
     (error, warning, colorId) => {
       wrapper = render({ error, warning });
       const color = baseTheme.colors[colorId];
@@ -43,7 +43,7 @@ describe("ValidationMessage component", () => {
   );
 
   it.each(validationWithStrings)(
-    "renders the expected message when passed error is `%s`, warning is `%s` and info is `%s`",
+    "renders the expected message when passed error string equals `%s` and warning string equals `%s`",
     (error, warning) => {
       wrapper = render({ error, warning });
       const expected = error || warning;
@@ -53,7 +53,7 @@ describe("ValidationMessage component", () => {
   );
 
   it.each(validationWithBooleans)(
-    "does not render message when passed error is `%s`, warning is `%s` and  is `%s`",
+    "does not render message when passed error is `%s` and warning is `%s`",
     (error, warning) => {
       wrapper = render({ error, warning });
       expect(wrapper.text()).toEqual("");
