@@ -1,0 +1,57 @@
+import { useState } from "react";
+import { Meta, Story, Preview, Props } from "@storybook/addon-docs";
+import TranslationKeysTable from "../../../.storybook/utils/translation-keys-table";
+import StyledSystemProps from "../../../.storybook/utils/styled-system-props";
+
+import DateInput from ".";
+import { OriginalTextbox } from "../textbox";
+import Button from "../button";
+import Box from "../box";
+
+<Meta
+  title="New Date Input"
+  parameters={{ info: { disable: true } }}
+/>
+
+# Date
+
+- If the date is likely to be close to today (e.g. an invoice due date), then a datepicker may be useful. If the date is likely to be far in the past (e.g. a date of birth), then it may be better to use separate inputs for day, month, and year or use a NumeralDate component.
+- Field focus automatically opens the datepicker, but a user can key in dates too, which many users find more convenient, especially in financial applications.
+- Carbon handles a range of formats, like dd/mm/yyyy, dd/mm/yy, dd/mm, or dd. Configuration can be regional, and copes with space, slash, full stop, or colon as separators.
+
+## Contents
+
+- [Quick Start](#quick-start)
+- [Examples](#examples)
+- [Props](#props)
+- [Translation keys](#translation-keys)
+
+## Quick Start
+
+```javascript
+import DateInput from "carbon-react/lib/components/date";
+```
+
+## Examples
+
+### Default
+
+<Preview>
+  <Story name="default" parameters={{ chromatic: { disable: true } }}>
+    {() => {
+      const [state, setState] = useState("05/04/2019");
+      const setValue = ({ target }) => {
+        setState(target.value.formattedValue);
+      };
+      return (
+        <DateInput
+          label="Date"
+          name="date-input"
+          value={state}
+          onChange={setValue}
+          //pickerProps={{ shouldRenderCaptionElement: true }}
+        />
+      );
+    }}
+  </Story>
+</Preview>
