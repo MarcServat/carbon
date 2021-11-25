@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import { margin } from "styled-system";
+import { margin, MarginProps } from "styled-system";
 import baseTheme from "../../style/themes/base";
 
-const StyledHr = styled.hr`
+type StyledHrProps = React.HTMLAttributes<HTMLElement> & MarginProps;
+
+const StyledHr = styled.hr<StyledHrProps>`
   ${margin}
   width: inherit;
   border: 0;
