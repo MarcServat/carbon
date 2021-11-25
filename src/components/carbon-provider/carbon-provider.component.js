@@ -21,7 +21,6 @@ const CarbonProvider = ({
   </ThemeProvider>
 );
 
-
 CarbonProvider.propTypes = {
   children: PropTypes.node.isRequired,
   theme: PropTypes.object,
