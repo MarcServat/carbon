@@ -71,6 +71,10 @@ const addReactDayPickerStyles = () => `
 
   .DayPicker-Weekday {
     display: table-cell;
+
+    abbr {
+      text-decoration: none;
+    }
   }
 
   .DayPicker-Body {

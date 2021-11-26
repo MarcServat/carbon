@@ -5,7 +5,6 @@ import StyledNavbar from "./navbar.style";
 import Icon from "../../../icon";
 
 const Navbar = ({ onPreviousClick, onNextClick, captionElement, ...props }) => {
-  console.log(props.month.getFullYear());
   return (
     <StyledNavbar {...props}>
       <StyledButton onClick={() => onPreviousClick()}>

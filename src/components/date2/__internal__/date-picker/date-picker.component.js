@@ -10,7 +10,7 @@ import Navbar from "../navbar";
 import Weekday from "../weekday";
 import StyledDayPicker from "./day-picker.style";
 import YearMonthForm from "../year-month-form";
-import { localeMap } from "../utils";
+import { localeMap } from "../locale-map/locale-map";
 
 const DatePicker = React.forwardRef(
   (
@@ -173,7 +173,7 @@ const DatePicker = React.forwardRef(
               <Navbar captionElement={renderCaptionElement(selectedDays)} />
             }
             // enableOutsideDays
-            // fixedWeeks
+            fixedWeeks
             // initialMonth={selectedDays || undefined}
             // disabledDays={getDisabledDays(minDate, maxDate, /*localeData*/)}
             // inline

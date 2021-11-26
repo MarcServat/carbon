@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-// import PropTypes from "prop-types";
-import "react-day-picker/lib/style.css";
-// import styledSystemPropTypes from "@styled-system/prop-types";
+import PropTypes from "prop-types";
+import { addYears, format, formatISO, isMatch, parse } from "date-fns/fp";
+// import "react-day-picker/lib/style.css";
+import styledSystemPropTypes from "@styled-system/prop-types";
+// import styled from "styled-components";
+// import DayPicker from "react-day-picker";
 import Context from "../../__internal__/i18n-context";
 import Events from "../../__internal__/utils/helpers/events";
 
@@ -9,31 +12,27 @@ import {
   filterStyledSystemMarginProps,
   // filterOutStyledSystemSpacingProps,
 } from "../../style/utils";
-import {
-  localeMap,
-  isDateValid,
-  parseDate,
-  formatToISO,
-  formattedValue,
-  isValidFormat,
-} from "./__internal__/utils";
+import { localeMap, SEPARATORS } from "./__internal__/locale-map/locale-map";
 import StyledDateInput from "./date.style";
 import Textbox from "../textbox";
 import DatePicker from "./__internal__/date-picker";
 
-// const marginPropTypes = filterStyledSystemMarginProps(
-//   styledSystemPropTypes.space
-// );
+const marginPropTypes = filterStyledSystemMarginProps(
+  styledSystemPropTypes.space
+);
 
 const DateInput = ({
   adaptiveLabelBreakpoint,
   autoFocus,
-  dataComponent,
-  dataElement,
-  dataRole,
+  "data-component": dataComponent,
+  "data-element": dataElement,
+  "data-role": dataRole,
   disabled,
+  disablePortal,
   helpAriaLabel,
   labelInline,
+  minDate,
+  maxDate,
   onBlur,
   onChange,
   onClick,
@@ -50,12 +49,12 @@ const DateInput = ({
   const parentRef = useRef();
   const inputRef = useRef();
   const pickerRef = useRef();
+  const hasFocus = useRef();
   const locale = useContext(Context);
-  const { format, separator } = localeMap["en-US"];
-
+  const { format: localeFormat, formats } = localeMap[locale.locale()];
   const [open, setOpen] = useState(false);
   const [selectedDays, setSelectedDays] = useState(
-    parseDate(new Date(), format, value)
+    parseDate(localeFormat, value)
   );
 
   const buildCustomEvent = (ev) => {
@@ -63,17 +62,17 @@ const DateInput = ({
 
     const formattedValueString =
       ev.type === "blur"
-        ? formattedValue(format, selectedDays)
+        ? formattedValue(localeFormat, selectedDays)
         : ev.target.value;
-    const rawValue = isDateValid(parseDate(format, ev.target.value))
-      ? formatToISO(format, ev.target.value)
+    const rawValue = isDateValid(parseDate(localeFormat, ev.target.value))
+      ? formatToISO(localeFormat, ev.target.value)
       : null;
 
     ev.target = {
       ...(name && { name }),
       ...(id && { id }),
       value: {
-        formattedValue: formattedValueString,
+        formattedValue: formattedValueString || ev.target.value,
         rawValue,
       },
     };
@@ -96,34 +95,48 @@ const DateInput = ({
       onChange(
         buildCustomEvent({
           ...ev,
-          target: { ...ev.target, value: formattedValue(format, day) },
+          target: { ...ev.target, value: formattedValue(localeFormat, day) },
         })
       );
     }
   };
 
-  console.log(locale.locale(), format);
-
   const handleBlur = (ev) => {
+    if (disabled || readOnly) return;
+
+    let event;
+
     if (
       isDateValid(selectedDays) &&
-      formattedValue(format, selectedDays) !== value
+      formattedValue(localeFormat, selectedDays) !== value
     ) {
-      const event = buildCustomEvent(ev);
+      event = buildCustomEvent(ev);
       onChange(event);
-      if (onBlur) onBlur(event);
+    } else {
+      ev.target = {
+        ...ev.target,
+        value: {
+          formattedValue: ev.target.value,
+          rawValue: null,
+        },
+      };
+
+      event = ev;
+    }
+
+    if (onBlur) {
+      onBlur(event);
     }
   };
 
   const handleFocus = (ev) => {
     if (disabled || readOnly) return;
-    setTimeout(() => {
-      // if (this.isAutoFocused) {
-      //   this.isAutoFocused = false;
-      // } else {
-      //   this.openDatePicker();
-      // }
-      if (!open) setOpen(true);
+
+    clearTimeout(hasFocus.current);
+    hasFocus.current = setTimeout(() => {
+      if (!open) {
+        setOpen(true);
+      }
     }, 150);
 
     if (onFocus) {
@@ -179,7 +192,7 @@ const DateInput = ({
   };
 
   useEffect(() => {
-    const fn = (ev) => {
+    const closePicker = (ev) => {
       if (
         !ev.path.includes(ref.current) &&
         !ev.path.includes(pickerRef.current)
@@ -188,35 +201,28 @@ const DateInput = ({
       }
     };
 
-    document.addEventListener("click", fn);
+    document.addEventListener("click", closePicker);
 
     return function cleanup() {
-      document.removeEventListener("click", fn);
+      document.removeEventListener("click", closePicker);
     };
   }, []);
 
   useEffect(() => {
-    const formatInputString = () => {
-      const arr = [".", ",", "-", "/"];
-      const replacedCharIndex = arr.findIndex((char) => value.includes(char));
+    const [matchedFormat, matchedValue] = findMatchedFormatAndValue(
+      value,
+      formats
+    );
 
-      if (replacedCharIndex === -1) {
-        return value;
-      }
-
-      return value.replaceAll(arr[replacedCharIndex], separator);
-    };
-
-    if (isValidFormat(value, locale.locale())) {
-      const newValue = formatInputString();
-      // replace, check if valid and update if yes
-      if (isDateValid(parseDate(format, newValue))) {
-        setSelectedDays(parseDate(format, newValue));
+    if (matchedFormat && matchedValue) {
+      const newValue = parseDate(matchedFormat, matchedValue);
+      if (isDateValid(newValue)) {
+        setSelectedDays(additionalYears(newValue));
       }
     } else {
       setSelectedDays(undefined);
     }
-  }, [value, format, separator, locale]);
+  }, [value, formats]);
 
   return (
     <StyledDateInput
@@ -243,6 +249,7 @@ const DateInput = ({
         adaptiveLabelBreakpoint={adaptiveLabelBreakpoint}
         tooltipPosition={tooltipPosition}
         helpAriaLabel={helpAriaLabel}
+        autoFocus={autoFocus}
         {...rest}
       />
       {open && (
@@ -253,11 +260,169 @@ const DateInput = ({
           selectedDays={selectedDays}
           setSelectedDays={setSelectedDays}
           onDayClick={handleDayClick}
+          minDate={minDate}
+          maxDate={maxDate}
           ref={pickerRef}
         />
       )}
     </StyledDateInput>
   );
 };
+
+function isDateValid(date) {
+  if (!date) {
+    return false;
+  }
+
+  return date.toString() !== "Invalid Date";
+}
+
+function makeSectionedValues(arr, str) {
+  return arr.map((_, i) => str.substring(arr[i], arr[i + 1]));
+}
+
+function hasMatchedFormat(formatString, valueString) {
+  return (
+    formatString.length === valueString.length &&
+    isMatch(formatString, valueString)
+  );
+}
+
+function findMatchWithNoSeparators(valueString, formatString) {
+  if (valueString.length !== formatString.length) {
+    return null;
+  }
+  const indexArray = formatString.split("").reduce((arr, char, index) => {
+    if (index === 0 || char !== formatString[index - 1]) {
+      return [...arr, index];
+    }
+    return arr;
+  }, []);
+
+  const [format1, format2, format3] = makeSectionedValues(
+    indexArray,
+    formatString
+  );
+  const [value1, value2, value3] = makeSectionedValues(indexArray, valueString);
+
+  if (
+    hasMatchedFormat(format1, value1) &&
+    hasMatchedFormat(format2, value2) &&
+    hasMatchedFormat(format3, value3)
+  ) {
+    // There is a bug in date-fns that means it fails to parse some valid dates when no separator is used
+    return [
+      `${format1}.${format2}.${format3}`,
+      `${value1}.${value2}.${value3}`,
+    ];
+  }
+
+  return null;
+}
+
+const hasSeparators = (value) => {
+  if (!value) return false;
+
+  const separator = SEPARATORS.slice(1).find((char) => value.includes(char));
+
+  return !!separator;
+};
+
+function findMatchedFormatAndValue(valueString, formats) {
+  const matchedFormatAndValue = formats.reduce((acc, formatString) => {
+    let match;
+    if (!hasSeparators(valueString) && !hasSeparators(formatString)) {
+      // This check is added as there is a bug in date-fns
+      // it incorrectly matches or fails to parse valid dates with no separators
+      match = findMatchWithNoSeparators(valueString, formatString);
+    } else if (hasMatchedFormat(formatString, valueString)) {
+      match = [formatString, valueString];
+    }
+
+    return match || acc;
+  }, []);
+
+  return matchedFormatAndValue;
+}
+
+function parseDate(formatString, valueString) {
+  return parse(new Date(), formatString, valueString);
+}
+
+function formatToISO(formatString, valueString) {
+  return formatISO(parseDate(formatString, valueString));
+}
+
+function formattedValue(formatString, dateValue) {
+  return format(formatString, dateValue);
+}
+
+function additionalYears(date) {
+  const year = date.getFullYear();
+
+  if (year < 69) {
+    return addYears(2000, date);
+  }
+
+  if (year <= 99) {
+    return addYears(1900, date);
+  }
+
+  return date;
+}
+
+DateInput.propTypes = {
+  ...Textbox.propTypes,
+  ...marginPropTypes,
+  /** Identifier used for testing purposes, applied to the root element of the component. */
+  "data-component": PropTypes.string,
+  /** Identifier used for testing purposes, applied to the root element of the component. */
+  "data-element": PropTypes.string,
+  /** Identifier used for testing purposes, applied to the root element of the component. */
+  "data-role": PropTypes.string,
+  /** Automatically focus on component mount */
+  autoFocus: PropTypes.bool,
+  /** Boolean to toggle where DatePicker is rendered in relation to the Date Input */
+  disablePortal: PropTypes.bool,
+  /** Minimum possible date YYYY-MM-DD */
+  minDate: PropTypes.string,
+  /** Maximum possible date YYYY-MM-DD */
+  maxDate: PropTypes.string,
+  /** Specify a callback triggered on blur */
+  onBlur: PropTypes.func,
+  /** Specify a callback triggered on change */
+  onChange: PropTypes.func.isRequired,
+  /** Specify a callback triggered on focus */
+  onFocus: PropTypes.func,
+  /** Name of the input */
+  name: PropTypes.string,
+  /** The current date YYYY-MM-DD */
+  value: PropTypes.string.isRequired,
+  /** Breakpoint for adaptive label (inline labels change to top aligned). Enables the adaptive behaviour when set */
+  adaptiveLabelBreakpoint: PropTypes.number,
+  /** Flag to configure component as mandatory */
+  required: PropTypes.bool,
+};
+
+// export const computedFormatAndValues = (valueString, localeString) => {
+//   let customMatch;
+
+//   const { formats } = localeMap[localeString];
+
+//   const matchedFormat = formats.find(
+//     (formatString) => {
+//       if (!hasSeparators(valueString) && !hasSeparators(formatString)) {
+//         customMatch = findMatchWithNoSeparators(valueString, formatString)
+//         return !!customMatch
+//       }
+
+//       return isMatch(formatString, valueString) && valueString?.length === formatString?.length
+//     }
+//   );
+
+//   if (!matchedFormat) return [null, null];
+
+//   return customMatch || [matchedFormat, valueString];
+// };
 
 export default DateInput;
