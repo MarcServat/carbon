@@ -68,7 +68,7 @@ exports[`SplitButton for business themes renders styles correctly 1`] = `
   text-decoration: none;
   background: transparent;
   border-color: #008200;
-  color: #008200;
+  color: #007300;
   font-size: 14px;
   min-height: 40px;
 }
@@ -228,7 +228,7 @@ exports[`SplitButton for business themes renders styles correctly 1`] = `
   text-decoration: none;
   background: transparent;
   border-color: #008200;
-  color: #008200;
+  color: #007300;
   font-size: 14px;
   min-height: 40px;
   border-left-width: 0;

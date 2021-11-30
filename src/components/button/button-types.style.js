@@ -9,7 +9,7 @@ export function makeColors(color) {
   `;
 }
 
-export default ({ colors, disabled }, isDisabled, destructive) => ({
+export default ({ button, colors, disabled }, isDisabled, destructive) => ({
   primary: `
     background: ${colors.primary};
     border-color: transparent;
@@ -59,7 +59,7 @@ export default ({ colors, disabled }, isDisabled, destructive) => ({
   secondary: `
       background: transparent;
       border-color: ${colors.primary};
-      color: ${colors.primary};
+      color: ${button.textColor};
       &:hover {
         background: ${colors.secondary};
         border-color: ${colors.secondary};
@@ -101,7 +101,7 @@ export default ({ colors, disabled }, isDisabled, destructive) => ({
   tertiary: `
     background: transparent;
     border-color: transparent;
-    color: ${colors.primary};
+    color: ${button.textColor};
     &:hover {
       ${makeColors(colors.secondary)}
     }

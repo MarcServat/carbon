@@ -1,4 +1,9 @@
 {
+    "button": {
+        "mint": "rgb(0, 115, 0)",
+        "aegean": "rgb(0, 92, 154)",
+        "none": "rgb(0, 115, 0)"
+    },
     "button-toggle": {
         "mint": "rgb(230, 246, 241)",
         "aegean": "rgb(230, 241, 250)",

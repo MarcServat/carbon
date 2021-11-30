@@ -28,8 +28,8 @@ Feature: Button as a sibling component
     Examples:
       | buttonType     | font-color         | background         | nameOfObject             |
       | primary        | rgb(255, 255, 255) | rgb(0, 129, 93)    | buttonTypePrimary        |
-      | secondary      | rgb(0, 129, 93)    | rgba(0, 0, 0, 0)   | buttonTypeSecondary      |
-      | tertiary       | rgb(0, 129, 93)    | rgba(0, 0, 0, 0)   | buttonTypeTertiary       |
+      | secondary      | rgb(0, 115, 0)     | rgba(0, 0, 0, 0)   | buttonTypeSecondary      |
+      | tertiary       | rgb(0, 115, 0)     | rgba(0, 0, 0, 0)   | buttonTypeTertiary       |
       | darkBackground | rgb(0, 129, 93)    | rgb(255, 255, 255) | buttonTypeDarkBackground |
 
   @positive

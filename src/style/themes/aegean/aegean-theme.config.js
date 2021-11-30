@@ -18,6 +18,10 @@ export default (palette) => {
       loadingBarBackground: palette.productBlueTint(70),
     },
 
+    button: {
+      textColor: palette.productBlueShade(23),
+    },
+
     stepSequence: {
       completedText: palette.productBlueShade(23),
     },

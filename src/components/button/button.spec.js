@@ -161,7 +161,7 @@ describe("Button", () => {
         {
           background: "transparent",
           borderColor: BaseTheme.colors.primary,
-          color: BaseTheme.colors.primary,
+          color: BaseTheme.button.textColor,
           fontSize: "14px",
           minHeight: sizesHeights.medium,
         },

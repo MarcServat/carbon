@@ -68,6 +68,10 @@ export default (palette) => {
       background: palette.slateTint(90),
     },
 
+    button: {
+      textColor: palette.genericGreenShade(25),
+    },
+
     tileSelect: {
       border: palette.slateTint(75),
       disabledBackground: palette.slateTint(90),

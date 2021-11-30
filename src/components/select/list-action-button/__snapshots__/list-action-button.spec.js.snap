@@ -68,7 +68,7 @@ exports[`Option renders properly 1`] = `
   text-decoration: none;
   background: transparent;
   border-color: #008200;
-  color: #008200;
+  color: #007300;
   font-size: 14px;
   min-height: 40px;
 }

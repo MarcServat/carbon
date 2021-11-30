@@ -749,7 +749,7 @@ exports[`Button when only the "iconPosition" and "iconType" props are passed int
   text-decoration: none;
   background: transparent;
   border-color: #008200;
-  color: #008200;
+  color: #007300;
   font-size: 14px;
   min-height: 40px;
 }
@@ -875,7 +875,7 @@ exports[`Button when only the "iconPosition" and "iconType" props are passed int
   text-decoration: none;
   background: transparent;
   border-color: #008200;
-  color: #008200;
+  color: #007300;
   font-size: 14px;
   min-height: 40px;
 }
