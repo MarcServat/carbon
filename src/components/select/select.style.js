@@ -18,7 +18,7 @@ const StyledSelect = styled.div`
       ${disabled &&
       css`
         cursor: not-allowed;
-        color: ${theme.disabled.disabled};
+        color: var(--colorsUtilityYin030)
         text-shadow: none;
       `}
 

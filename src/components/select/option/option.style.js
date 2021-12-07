@@ -19,10 +19,7 @@ const StyledOption = styled.li`
   ${({ hidden }) => hidden && "display: none;"}
 
   :hover {
-    ${({ theme }) =>
-      css`
-        background-color: ${theme.select.selected};
-      `}
+    background-color: var(--colorsUtilityMajor200);
   }
 `;
 

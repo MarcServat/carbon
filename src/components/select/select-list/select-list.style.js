@@ -80,7 +80,7 @@ const StyledSelectListTableHeader = styled.thead`
   th {
     position: sticky;
     top: 0;
-    padding: ${({ theme }) => 2 * theme.spacing}px;
+    padding: var(--spacing200);
     border-bottom: 1px solid ${({ theme }) => theme.select.tableHeaderBorder};
     background-color: white;
     text-align: left;
