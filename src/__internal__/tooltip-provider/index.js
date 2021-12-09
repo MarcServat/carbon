@@ -6,7 +6,7 @@ export const TooltipContext = React.createContext({});
 export const TooltipProvider = ({
   children,
   tooltipPosition,
-  helpAriaLabel,
+  helpAriaLabel = "help",
   focusable = true,
   tooltipVisible,
   disabled = false,
