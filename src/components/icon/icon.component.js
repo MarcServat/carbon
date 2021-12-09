@@ -15,6 +15,7 @@ const marginPropTypes = filterStyledSystemMarginProps(
 const Icon = React.forwardRef(
   (
     {
+      "aria-hidden": ariaHidden,
       bg,
       bgShape,
       bgSize,
@@ -88,6 +89,7 @@ const Icon = React.forwardRef(
 
     const icon = (
       <StyledIcon
+        aria-hidden={ariaHidden}
         ref={ref}
         key="icon"
         className={className || null}
@@ -96,7 +98,7 @@ const Icon = React.forwardRef(
         {...styleProps}
         hasTooltip={hasTooltip}
         aria-label={ariaLabel}
-        role={hasTooltip && role === undefined ? "tooltip" : role}
+        role={role}
       />
     );
 
