@@ -9,6 +9,7 @@ import Events from "../../__internal__/utils/helpers/events";
 import { TooltipContext } from "../../__internal__/tooltip-provider";
 import { filterStyledSystemMarginProps } from "../../style/utils";
 import { HELP_POSITIONS } from "./help.config";
+import guid from "../../__internal__/utils/helpers/guid";
 
 const marginPropTypes = filterStyledSystemMarginProps(
   styledSystemPropTypes.space
@@ -31,6 +32,7 @@ const Help = ({
   ariaLabel,
   ...rest
 }) => {
+  const defaultTooltipId = useRef(guid());
   const helpElement = useRef(null);
   const [isTooltipVisible, updateTooltipVisible] = useState(false);
   const { helpAriaLabel } = useContext(TooltipContext);
@@ -60,6 +62,7 @@ const Help = ({
 
   return (
     <StyledHelp
+      aria-describedby={tooltipId || defaultTooltipId.current}
       className={className}
       as={tagType}
       href={href}
@@ -80,13 +83,14 @@ const Help = ({
             rel: "noopener noreferrer",
           }
         : {
-            role: "tooltip",
+            role: "button",
             "aria-label": ariaLabel || helpAriaLabel,
           })}
       {...filterStyledSystemMarginProps(rest)}
       {...rest}
     >
       <Icon
+        aria-hidden
         type={type}
         tooltipMessage={children}
         tooltipPosition={tooltipPosition}
@@ -95,12 +99,7 @@ const Help = ({
         tooltipFontColor={tooltipFontColor}
         tooltipFlipOverrides={tooltipFlipOverrides}
         focusable={false}
-        tooltipId={tooltipId}
-        aria-hidden="true"
-        {...(href && {
-          role: "tooltip",
-          ariaLabel: ariaLabel || helpAriaLabel,
-        })}
+        tooltipId={tooltipId || defaultTooltipId.current}
       />
     </StyledHelp>
   );
