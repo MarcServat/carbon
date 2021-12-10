@@ -1,8 +1,19 @@
 import styled, { css } from "styled-components";
-import { padding, flexbox } from "styled-system";
+import { padding, flexbox, PaddingProps, FlexboxProps } from "styled-system";
 import { baseTheme } from "../../style/themes";
 
-const StyledNavigationBar = styled.nav`
+type StyledNavigationBarProps = React.HTMLAttributes<HTMLElement> &
+  PaddingProps &
+  FlexboxProps & {
+    /** Color scheme of navigation component */
+    navigationType?: "light" | "dark";
+    /** Defines the position of sticky navigation bar */
+    stickyPosition?: "top" | "bottom";
+    /** Defines the offset of sticky navigation bar */
+    stickyOffset?: string;
+  };
+
+const StyledNavigationBar = styled.nav<StyledNavigationBarProps>`
   display: flex;
   align-items: center;
   padding: 0 40px;
