@@ -121,7 +121,7 @@ exports[`Option renders properly 1`] = `
 }
 
 .c0 .c1:hover {
-  background-color: #NANNANNAN;
+  background-color: var(--colorsUtilityMajor025);
 }
 
 .c0 .c1:hover .c3 {

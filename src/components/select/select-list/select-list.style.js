@@ -73,8 +73,7 @@ const StyledSelectListTable = styled.table`
   }
 `;
 
-// TODO (design-tokens): we have just one colorsComponentsNavigationYin100 to describe black, need more i quess
-// TODO (design-tokens): to much current style for border bottom colorsUtilityMajor100
+// TODO (design-tokens): to match current style for border bottom colorsUtilityMajor100
 const StyledSelectListTableHeader = styled.thead`
   th {
     position: sticky;

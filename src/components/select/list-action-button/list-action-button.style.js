@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import StyledButton from "../../button/button.style";
 import StyledIcon from "../../icon/icon.style";
-import tint from "../../../style/utils/tint";
 
 const StyledListActionButtonWrapper = styled.div`
   padding-top: var(--spacing100);
@@ -23,7 +22,7 @@ const StyledListActionButtonWrapper = styled.div`
     width: 100%;
 
     :hover {
-      background-color: ${tint("var(--colorsActionMajor500")(95)};
+      background-color: var(--colorsUtilityMajor025);
       ${StyledIcon} {
         color: var(--colorsUtilityYin090);
       }
