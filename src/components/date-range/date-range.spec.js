@@ -313,23 +313,6 @@ describe("DateRange", () => {
       expect(endInput.props().value).toEqual("2016-11-11");
     });
 
-    it("supports value update dynamically at runtime and defaults to today if new value is undefined", () => {
-      MockDate.set("2020-01-21");
-      wrapper = renderDateRange(
-        {
-          onChange: customOnChange,
-          value: ["2012-12-12", "2012-12-13"],
-        },
-        mount
-      );
-      wrapper.setProps({ value: [] });
-      wrapper.update();
-      startInput = wrapper.find(BaseDateInput).at(0);
-      endInput = wrapper.find(BaseDateInput).at(1);
-      expect(startInput.props().value).toEqual("2020-01-21");
-      expect(endInput.props().value).toEqual("2020-01-21");
-    });
-
     it("class names can be added to dates by passing startDateProps and endDateProps to DateRange", () => {
       wrapper = renderDateRange(
         {

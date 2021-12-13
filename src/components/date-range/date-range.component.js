@@ -93,7 +93,7 @@ const DateRange = ({
         ...localeData,
       }),
       rawValue: DateHelper.formatValue({
-        value: getStartDate() || today,
+        value: getStartDate() || (!isControlled ? today : ""),
         ...localeData,
       }),
     });
@@ -104,11 +104,11 @@ const DateRange = ({
         ...localeData,
       }),
       rawValue: DateHelper.formatValue({
-        value: getEndDate() || today,
+        value: getEndDate() || (!isControlled ? today : ""),
         ...localeData,
       }),
     });
-  }, [getEndDate, getStartDate, localeData, today]);
+  }, [getEndDate, getStartDate, localeData, today, isControlled]);
 
   function usePrevious(arg) {
     const ref = useRef();
