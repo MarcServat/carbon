@@ -289,7 +289,7 @@ exports[`SplitButton for business themes renders styles correctly 1`] = `
 
 .c14,
 .c14 .c4 {
-  color: #FFFFFF;
+  color: var(--colorsActionMajorYang100);
 }
 
 .c1 + .c14 {
@@ -305,9 +305,9 @@ exports[`SplitButton for business themes renders styles correctly 1`] = `
 }
 
 .c15 .c1 {
-  background-color: #006300;
-  border: 1px solid #006300;
-  color: #FFFFFF;
+  background-color: var(--colorsActionMajorTransparent);
+  border: 1px solid var(--colorsActionMajorTransparent);
+  color: var(--colorsActionMajor500);
   display: block;
   margin-left: 0;
   margin-top: 3px;
@@ -319,17 +319,18 @@ exports[`SplitButton for business themes renders styles correctly 1`] = `
 
 .c15 .c1:focus,
 .c15 .c1:hover {
-  background-color: #004500;
+  color: var(--colorsActionMajorYang100);
+  background-color: var(--colorsActionMajor600);
 }
 
-.c15 .c1 + .c18 .c1 {
+.c15 .c1 + .c17 .c1 {
   margin-top: 3px;
 }
 
 .c16 .c1 {
-  background-color: #006046;
-  border: 1px solid #006046;
-  color: #FFFFFF;
+  background-color: var(--colorsActionMajorTransparent);
+  border: 1px solid var(--colorsActionMajorTransparent);
+  color: var(--colorsActionMajor500);
   display: block;
   margin-left: 0;
   margin-top: 3px;
@@ -340,31 +341,11 @@ exports[`SplitButton for business themes renders styles correctly 1`] = `
 
 .c16 .c1:focus,
 .c16 .c1:hover {
-  background-color: #00402E;
+  color: var(--colorsActionMajorYang100);
+  background-color: var(--colorsActionMajor600);
 }
 
-.c16 .c1 + .c18 .c1 {
-  margin-top: 3px;
-}
-
-.c17 .c1 {
-  background-color: #005C9A;
-  border: 1px solid #005C9A;
-  color: #FFFFFF;
-  display: block;
-  margin-left: 0;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  min-width: 100%;
-  z-index: 1000;
-}
-
-.c17 .c1:focus,
-.c17 .c1:hover {
-  background-color: #004472;
-}
-
-.c17 .c1 + .c18 .c1 {
+.c16 .c1 + .c17 .c1 {
   margin-top: 3px;
 }
 
